@@ -30,7 +30,7 @@ public class VerificationPresenter {
     public VerificationPresenter(final Presenter v) {
         this.v = v;
         phoneNumber = ((Activity)v).getIntent().getStringExtra("phoneNumber");
-        Log.d("TAG", "onCreate: "+phoneNumber);
+        phoneNumber = "+62" + phoneNumber;
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,
                 60,
@@ -43,6 +43,7 @@ public class VerificationPresenter {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             sentCode = phoneAuthCredential.getSmsCode();
+            Log.d("TAG", "onCreate: "+sentCode);
             if(sentCode!=null){
                 signIn();
             }
@@ -52,7 +53,7 @@ public class VerificationPresenter {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-
+            Log.d("TAG", "onCreate: "+e.toString());
         }
 
         @Override
@@ -71,6 +72,7 @@ public class VerificationPresenter {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    dialog.dismiss();
                     Helper.nextPage((Activity) v, new HomeActivity());
                 }
             }
