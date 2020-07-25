@@ -73,6 +73,8 @@ public class VerificationPresenter {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     dialog.dismiss();
+
+
                     Helper.nextPage((Activity) v, new HomeActivity());
                 }
             }
