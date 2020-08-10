@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Grey"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="16dp"
@@ -17,10 +16,10 @@
 
     <EditText
         android:id="@+id/eTPhoneNumber"
+        android:background="@drawable/inputs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="@color/White"
         android:fontFamily="monospace"
         android:hint="Nomor Ponsel"
         android:inputType="phone"
@@ -32,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="@color/Black"
+        android:background="@drawable/buttons"
         android:fontFamily="monospace"
         android:gravity="center"
         android:onClick="loginAction"
