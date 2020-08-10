@@ -5,40 +5,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:gravity="center"
     android:background="@color/Grey"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context=".view.LoginActivity">
 
+
     <EditText
+        android:id="@+id/eTPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/White"
-        android:paddingBottom="10dp"
-        android:textAlignment="center"
-        android:paddingTop="10dp"
         android:layout_marginBottom="10dp"
-        android:inputType="phone"
+        android:background="@color/White"
+        android:fontFamily="monospace"
         android:hint="Nomor Ponsel"
-        android:id="@+id/eTPhoneNumber"
-        android:fontFamily="monospace" />
+        android:inputType="phone"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textAlignment="center" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Black"
-        android:gravity="center"
-        android:textColor="@color/White"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Lanjut"
-        android:textStyle="bold"
-        android:onClick="loginAction"
+        android:background="@color/Black"
         android:fontFamily="monospace"
-        android:textAllCaps="false" />
+        android:gravity="center"
+        android:onClick="loginAction"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Lanjut"
+        android:textAllCaps="false"
+        android:textColor="@color/White"
+        android:textStyle="bold" />
 </LinearLayout>

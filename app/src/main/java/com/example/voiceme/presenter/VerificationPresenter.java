@@ -27,6 +27,7 @@ public class VerificationPresenter {
     private String phoneNumber;
     private String sentCode;
     private String mVerification;
+
     public VerificationPresenter(final Presenter v) {
         this.v = v;
         phoneNumber = ((Activity)v).getIntent().getStringExtra("phoneNumber");
@@ -39,6 +40,7 @@ public class VerificationPresenter {
                 mCallBacks
         );
     }
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -66,6 +68,7 @@ public class VerificationPresenter {
     public void setSentCode(String sentCode){
         this.sentCode = sentCode;
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
         final ProgressDialog dialog = ProgressDialog.show((Context) v, "", "Sedang Memuat", true);
         Firebase.auth().signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,13 +76,12 @@ public class VerificationPresenter {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     dialog.dismiss();
-
-
                     Helper.nextPage((Activity) v, new HomeActivity());
                 }
             }
         });
     }
+
     public void signIn(){
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerification, sentCode);
         signInWithPhoneAuthCredential(credential);
