@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">VoiceMe</string>
+<string name="app_name">VoiceMe</string>
+<!-- TODO: Remove or change this placeholder text -->
+<string name="hello_blank_fragment">Hello blank fragment</string>
+<string name="username">Full Name</string>
+<string name="phone_number">Phone Number</string>
+<string name="verification_code">6-digit code</string>
+<string name="login">Next</string>
+<string name="verification">Login</string>
+<string name="signup">Home</string>
+<string name="logout">Logout</string>
+<string name="process">Process : </string>
+<string name="display_username">User Name</string>
+<string name="type_message">Send a message</string>
+<string name="hello">hello</string>
 </resources>

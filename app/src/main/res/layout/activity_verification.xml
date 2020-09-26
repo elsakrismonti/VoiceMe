@@ -4,40 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Black"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:gravity="center"
-    tools:context=".view.VerificationActivity">
-    <EditText
+    tools:context=".view.activity.VerificationActivity">
+    <include
+        android:id="@+id/verification_toolbar"
+        layout="@layout/app_bar_layout"
+        ></include>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/inputs"
-        android:paddingBottom="10dp"
-        android:textAlignment="center"
-        android:paddingTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:inputType="phone"
-        android:hint="Kode Verifikasi"
-        android:id="@+id/eTVerificationCode"
-        android:fontFamily="monospace" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/buttons"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
         android:gravity="center"
-        android:textColor="@color/White"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="MASUK"
-        android:textStyle="bold"
-        android:onClick="verifikasiAction"
-        android:fontFamily="monospace"
-        android:textAllCaps="false" />
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputs"
+            android:paddingBottom="10dp"
+            android:textAlignment="viewStart"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="20dp"
+            android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginBottom="10dp"
+            android:inputType="phone"
+            android:hint="@string/verification_code"
+            android:id="@+id/eTVerificationCode"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttons"
+            android:gravity="center"
+            android:textColor="@color/White"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/verification"
+            android:textSize="20dp"
+            android:onClick="verificationAction"
+            android:fontFamily="sans-serif-condensed"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

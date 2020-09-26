@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Handler;
 import com.example.voiceme.Firebase;
 import com.example.voiceme.Helper;
-import com.example.voiceme.view.HomeActivity;
-import com.example.voiceme.view.LoginActivity;
+import com.example.voiceme.view.activity.HomeActivity;
+import com.example.voiceme.view.activity.LoginActivity;
 
 
 public class SplashScreenPresenter {
@@ -16,14 +16,15 @@ public class SplashScreenPresenter {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(Firebase.currenntUser() == null){
+                if(Firebase.currentUser() == null){
                     Helper.nextPage((Activity)v, new LoginActivity());
+
                 }
                 else{
                     Helper.nextPage((Activity)v, new HomeActivity());
                 }
             }
-        }, 3000);
+        }, 300);
     }
     public interface Presenter{}
 }

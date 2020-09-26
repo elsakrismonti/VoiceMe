@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    tools:context=".view.activity.MessageActivity">
+
+    <include
+        android:id="@+id/chat_toolbar"
+        layout="@layout/app_bar_layout"
+        ></include>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_message"
+        android:layout_above="@id/bottom"
+        android:layout_below="@id/chat_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true">
+        <EditText
+            android:id="@+id/eTMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="175dp"
+            android:paddingTop="10dp"
+            android:textSize="17dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/message_input"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/White"
+            android:textColorHint="@color/cardview_shadow_start_color"
+            android:hint="@string/type_message"
+            android:layout_toLeftOf="@id/bSendMessage"
+            android:layout_centerVertical="true"/>
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:foregroundGravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/bSendMessage">
+            <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                android:id="@+id/pulsator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:pulse_count="4"
+                app:pulse_duration="1500"
+                app:pulse_repeat ="0"
+                app:pulse_color="@color/White"
+                app:pulse_startFromScratch="true"
+                app:pulse_interpolator="Linear"
+                >
+            </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
+            <ImageButton
+                android:id="@+id/btn_record"
+                android:onClick="sendMessageBtn"
+                android:background="@drawable/btn_background"
+                android:layout_width="50dp"
+                android:layout_height= "50dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"/>
+
+            <ImageView
+                android:id="@+id/imgV_mic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_voice"/>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

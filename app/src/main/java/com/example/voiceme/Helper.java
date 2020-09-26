@@ -9,5 +9,12 @@ public class Helper {
         from.startActivity(i);
         from.finish();
     }
+    public static void nextPageNoFinish(Activity from, Activity to){
+        Intent i = new Intent(from,to.getClass());
+        from.startActivity(i);
+    }
+
+
+
 
 }

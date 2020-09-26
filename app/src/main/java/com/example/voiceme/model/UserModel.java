@@ -1,20 +1,42 @@
 package com.example.voiceme.model;
 
 public class UserModel {
-    private String userName;
+    private String id;
+    private String username;
     private String phoneNumber;
+    private String imageURL;
 
-    public UserModel(String userName, String phoneNumber) {
-        this.userName = userName;
+    public UserModel(String id, String username, String phoneNumber){
+        this.id = id;
+        this.username = username;
         this.phoneNumber = phoneNumber;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserModel() {
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getPhoneNumber() {
