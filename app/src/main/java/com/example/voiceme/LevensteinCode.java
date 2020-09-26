@@ -16,8 +16,6 @@ import java.util.Collections;
  */
 public class LevensteinCode {
     public static String compression(int[] m){
-
-
         Map<Integer, String> levensteinCodeTable = levensteinCodeTable(sampleVariation(sortByFreq(m)));
         StringBuilder compressed_code = new StringBuilder();
         StringBuilder padding_bit = new StringBuilder();        

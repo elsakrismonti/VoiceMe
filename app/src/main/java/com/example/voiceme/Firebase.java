@@ -15,6 +15,7 @@ public class Firebase {
         public static CollectionReference user(){return db().collection("Users");}
         public static CollectionReference chatRoom() {return db().collection("chatRoom");}
 
+
 //        static FirebaseDatabase db(){return FirebaseDatabase.getInstance();}
 //        public static DatabaseReference user(){return db().getReference("Users");}
 //        public static DatabaseReference chats(){return db().getReference("Chats");}

@@ -26,9 +26,9 @@ public class FriendsPresenter {
     public FriendsPresenter(final Context mContext, final RecyclerView myRecycleView) {
         this.mContext = mContext;
         listFriends = new ArrayList<>();
-        final FirebaseUser firebaseUser = Firebase.currentUser();
+        final String currentUserId = Firebase.currentUser().getUid();
         CollectionReference reference = Firebase.DataBase.user();
-        reference
+        reference.orderBy("userName")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -37,7 +37,7 @@ public class FriendsPresenter {
                         for(DocumentSnapshot querySnapshot: task.getResult()){
                             UserModel user = new UserModel(querySnapshot.getString("id"), querySnapshot.getString("userName"),
                                     querySnapshot.getString("phoneNumber"));
-                            if(!user.getId().equals(firebaseUser.getUid())){
+                            if(!user.getId().equals(currentUserId)){
                                 listFriends.add(user);
                             }
                         }

@@ -60,5 +60,10 @@ public class FriendsFragment extends Fragment {
         presenter = new FriendsPresenter(getContext(), myRecycleView);
     }
 
+    @Override
+    public void onStart() {
+        initialize();
+        super.onStart();
+    }
 
 }

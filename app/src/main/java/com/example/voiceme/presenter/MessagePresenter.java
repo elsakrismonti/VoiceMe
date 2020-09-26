@@ -73,6 +73,7 @@ public class MessagePresenter {
             byte[] sampleAmplitudes = WavUtil.getSampleAmplitudes(audio);
             int[] samplesInt = Math.byteToInt(sampleAmplitudes);
             int[] encryption = masseyOmura.encryption(samplesInt);
+
             String data1 = LevensteinCode.compression(encryption);
             chatModel.setData1(data1);
             FirebaseFirestore.getInstance().collection("chatRoom").document(chatRoomModel.getId()).collection("messages").add(chatModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -95,7 +96,7 @@ public class MessagePresenter {
         final List<String> users = new ArrayList<String>(){{add(recipientId); add(currentUserId);}};
         final CollectionReference rootRef = Firebase.DataBase.chatRoom();
 
-        FirebaseFirestore.getInstance().collection("Users").document(currentUserId).collection("chat").document(recipientId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Firebase.DataBase.user().document(currentUserId).collection("chat").document(recipientId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                if(task.isSuccessful() && task.getResult() != null && task.getResult().exists()){
