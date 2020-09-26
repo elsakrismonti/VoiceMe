@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "526639254268",
+    "firebase_url": "https://eke-143a6.firebaseio.com",
+    "project_id": "eke-143a6",
+    "storage_bucket": "eke-143a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526639254268:android:487f4a5be9e2d1f10ca579",
+        "android_client_info": {
+          "package_name": "com.example.voiceme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526639254268-tbicasg5vapos34t8bmtsr7t4eruojnb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.voiceme",
+            "certificate_hash": "87212c58d97a885fdbfad753a24b6a573f30a106"
+          }
+        },
+        {
+          "client_id": "526639254268-memidddtmc3migj5suqjsn2he1flh7vr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.voiceme",
+            "certificate_hash": "5bad782ee5dc281b9353ebf7f7e9e5179cc408c6"
+          }
+        },
+        {
+          "client_id": "526639254268-sn1sobkv5jbqjak93c9jkjjsfekefneo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYoC-JUVHtbZ4AuLFM_klXI6r-InDqoDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526639254268-sn1sobkv5jbqjak93c9jkjjsfekefneo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

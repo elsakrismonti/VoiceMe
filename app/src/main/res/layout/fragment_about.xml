@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    tools:context=".view.fragment.AboutFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="IMPLEMENTASI MASSEY-OMURA CRYPTOSYSTEM DAN\nLEVENSTEIN CODE DALAM SIMULASI\nTHREE-PASS PROTOCOL"
+        android:textAlignment="center"
+        android:textSize="13dp"
+        android:textColor="@color/White"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="156dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="ELSA KRISMONTI\n161401011"
+        android:textSize="13dp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="228dp"
+        android:src="@drawable/logo_usu" />
+
+    <TextView
+        android:textSize="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="398dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text=" PROGRAM STUDI S1 ILMU KOMPUTER\nFAKULTAS ILMU KOMPUTER DAN TEKNOLOGI INFORMASI\nUNIVERSITAS SUMATERA UTARA\n2020"
+        android:textAlignment="center"
+        android:textColor="@color/White"
+        android:textStyle="bold" />
+
+</RelativeLayout>
