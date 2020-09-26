@@ -14,6 +14,7 @@ import com.example.voiceme.model.ChatRoomModel;
 import com.example.voiceme.model.RecordWav;
 import com.example.voiceme.utilities.WavUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -73,6 +74,15 @@ public class MessagePresenter {
             int[] samplesInt = Math.byteToInt(sampleAmplitudes);
             int[] encryption = masseyOmura.encryption(samplesInt);
             String data1 = LevensteinCode.compression(encryption);
+            chatModel.setData1(data1);
+            FirebaseFirestore.getInstance().collection("chatRoom").document(chatRoomModel.getId()).collection("messages").add(chatModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    documentReference.update("id", documentReference.getId());
+
+                }
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
