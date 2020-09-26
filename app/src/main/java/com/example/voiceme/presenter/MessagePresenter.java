@@ -95,28 +95,27 @@ public class MessagePresenter {
                            if(task.isSuccessful() && task.getResult() != null){
                                chatRoomModel = task.getResult().toObject(ChatRoomModel.class);
                            }
-                           else {
-                               chatRoomModel = new ChatRoomModel();
-                               chatRoomModel.setUser1(recipientId);
-                               chatRoomModel.setUser2(currentUserId);
-                               rootRef.add(chatRoomModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                   @Override
-                                   public void onComplete(@NonNull Task<DocumentReference> task) {
-                                       if(task.isSuccessful() && task.getResult() != null){
-                                           rootRef.document(task.getResult().getId()).update("id", task.getResult().getId());
-                                           chatRoomModel.setId(task.getResult().getId());
-                                           HashMap<String,String> data = new HashMap<String, String>();
-                                           data.put("chatRoomId", chatRoomModel.getId());
-                                           Firebase.DataBase.user().document(currentUserId).collection("chat").document(recipientId).set(data);
-                                           Firebase.DataBase.user().document(recipientId).collection("chat").document(currentUserId).set(data);
-                                       }
-                                   }
-                               });
+                       }
+                   });
+               } else {
+                   chatRoomModel = new ChatRoomModel();
+                   chatRoomModel.setUser1(recipientId);
+                   chatRoomModel.setUser2(currentUserId);
+                   rootRef.add(chatRoomModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                       @Override
+                       public void onComplete(@NonNull Task<DocumentReference> task) {
+                           if(task.isSuccessful() && task.getResult() != null){
+                               rootRef.document(task.getResult().getId()).update("id", task.getResult().getId());
+                               chatRoomModel.setId(task.getResult().getId());
+                               HashMap<String,String> data = new HashMap<String, String>();
+                               data.put("chatRoomId", chatRoomModel.getId());
+                               Firebase.DataBase.user().document(currentUserId).collection("chat").document(recipientId).set(data);
+                               Firebase.DataBase.user().document(recipientId).collection("chat").document(currentUserId).set(data);
                            }
-
                        }
                    });
                }
+
             }
         });
 //        rootRef.whereIn("user1", users).whereIn("user2", users).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
