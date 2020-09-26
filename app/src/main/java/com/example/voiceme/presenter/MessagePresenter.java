@@ -119,28 +119,28 @@ public class MessagePresenter {
                }
             }
         });
-        rootRef.whereIn("user1", users).whereIn("user2", users).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful() && task.getResult() != null && task.getResult().size() == 1){
-                    chatRoomModel = task.getResult().toObjects(ChatRoomModel.class).get(0);
-                }
-                else {
-                    chatRoomModel = new ChatRoomModel();
-                    chatRoomModel.setUser1(recipientId);
-                    chatRoomModel.setUser2(currentUserId);
-                    rootRef.add(chatRoomModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if(task.isSuccessful() && task.getResult() != null){
-                                rootRef.document(task.getResult().getId()).update("id", task.getResult().getId());
-                                chatRoomModel.setId(task.getResult().getId());
-                            }
-                        }
-                    });
-                }
-            }
-        });
+//        rootRef.whereIn("user1", users).whereIn("user2", users).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful() && task.getResult() != null && task.getResult().size() == 1){
+//                    chatRoomModel = task.getResult().toObjects(ChatRoomModel.class).get(0);
+//                }
+//                else {
+//                    chatRoomModel = new ChatRoomModel();
+//                    chatRoomModel.setUser1(recipientId);
+//                    chatRoomModel.setUser2(currentUserId);
+//                    rootRef.add(chatRoomModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentReference> task) {
+//                            if(task.isSuccessful() && task.getResult() != null){
+//                                rootRef.document(task.getResult().getId()).update("id", task.getResult().getId());
+//                                chatRoomModel.setId(task.getResult().getId());
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
     }
 
     void encryption(){
