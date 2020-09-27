@@ -48,11 +48,13 @@ public class MessagePresenter {
     public void start(){
 
         if(!record.isRecording) {
+            view.setTVProgressText("recording...");
             view.startPulsatorLayout();
             startTime = System.currentTimeMillis();
             startRecording();
         }
         else {
+            view.setTVProgressText("recording stopped...");
             view.stopPulsatorLayout();
             sendMessage(record.stopRecording());
             handler.removeCallbacksAndMessages(null);
@@ -70,19 +72,28 @@ public class MessagePresenter {
         File audio = new File(filePath);
 
         try {
+            startTime = System.currentTimeMillis();
             byte[] sampleAmplitudes = WavUtil.getSampleAmplitudes(audio);
             int[] samplesInt = Math.byteToInt(sampleAmplitudes);
+            List<Integer> dataVariation1 = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(samplesInt));
+
+            view.setTVProgressText("encrypting...");
             int[] encryption = masseyOmura.encryption(samplesInt);
 
+            view.setTVProgressText("compressing...");
             String data1 = LevensteinCode.compression(encryption);
+
             chatModel.setData1(data1);
+            chatModel.setVariation1(dataVariation1);
+
+            view.setTVProgressText("sending...");
             FirebaseFirestore.getInstance().collection("chatRoom").document(chatRoomModel.getId()).collection("messages").add(chatModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     documentReference.update("id", documentReference.getId());
-
                 }
             });
+            view.setTVProgressText("done...");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +107,7 @@ public class MessagePresenter {
         final List<String> users = new ArrayList<String>(){{add(recipientId); add(currentUserId);}};
         final CollectionReference rootRef = Firebase.DataBase.chatRoom();
 
-        Firebase.DataBase.user().document(currentUserId).collection("chat").document(recipientId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Firebase.DataBase.user().document(currentUserId).collection("chats").document(recipientId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                if(task.isSuccessful() && task.getResult() != null && task.getResult().exists()){
@@ -120,8 +131,8 @@ public class MessagePresenter {
                                chatRoomModel.setId(task.getResult().getId());
                                HashMap<String,String> data = new HashMap<String, String>();
                                data.put("chatRoomId", chatRoomModel.getId());
-                               Firebase.DataBase.user().document(currentUserId).collection("chat").document(recipientId).set(data);
-                               Firebase.DataBase.user().document(recipientId).collection("chat").document(currentUserId).set(data);
+                               Firebase.DataBase.user().document(currentUserId).collection("chats").document(recipientId).set(data);
+                               Firebase.DataBase.user().document(recipientId).collection("chats").document(currentUserId).set(data);
                            }
                        }
                    });
@@ -129,32 +140,6 @@ public class MessagePresenter {
 
             }
         });
-//        rootRef.whereIn("user1", users).whereIn("user2", users).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if(task.isSuccessful() && task.getResult() != null && task.getResult().size() == 1){
-//                    chatRoomModel = task.getResult().toObjects(ChatRoomModel.class).get(0);
-//                }
-//                else {
-//                    chatRoomModel = new ChatRoomModel();
-//                    chatRoomModel.setUser1(recipientId);
-//                    chatRoomModel.setUser2(currentUserId);
-//                    rootRef.add(chatRoomModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentReference> task) {
-//                            if(task.isSuccessful() && task.getResult() != null){
-//                                rootRef.document(task.getResult().getId()).update("id", task.getResult().getId());
-//                                chatRoomModel.setId(task.getResult().getId());
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
-    }
-
-    void encryption(){
-
     }
 
     private void startRecording() {
@@ -165,8 +150,9 @@ public class MessagePresenter {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sendMessage(record.stopRecording());
                     view.stopPulsatorLayout();
+                    view.setTVProgressText("recording stopped...");
+                    sendMessage(record.stopRecording());
                 }
             }, recordDuration);
 
@@ -180,6 +166,7 @@ public class MessagePresenter {
         void startPulsatorLayout();
         boolean checkPermission();
         void requestPermission();
+        void setTVProgressText(String text);
         Context getAppContext();
     }
 }

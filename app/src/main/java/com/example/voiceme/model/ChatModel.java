@@ -3,28 +3,21 @@ package com.example.voiceme.model;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
+import java.util.List;
 
 public class ChatModel {
 
     private String id;
     private String senderId;
     private String data1;
+    private List<Integer> variation1;
     private String data2;
+    private List<Integer> variation2;
     private String data3;
+    private List<Integer> variation3;
     private int prime;
     private String dataFinal;
     private Date createAt = new Date();
-
-    public ChatModel(String id, String senderId, String data1, String data2, String data3, int prime, String dataFinal, Date createAt) {
-        this.id = id;
-        this.senderId = senderId;
-        this.data1 = data1;
-        this.data2 = data2;
-        this.data3 = data3;
-        this.prime = prime;
-        this.dataFinal = dataFinal;
-        this.createAt = createAt;
-    }
 
     public ChatModel() {
     }
@@ -53,6 +46,14 @@ public class ChatModel {
         this.data1 = data1;
     }
 
+    public List<Integer> getVariation1() {
+        return variation1;
+    }
+
+    public void setVariation1(List<Integer> variation1) {
+        this.variation1 = variation1;
+    }
+
     public String getData2() {
         return data2;
     }
@@ -61,12 +62,28 @@ public class ChatModel {
         this.data2 = data2;
     }
 
+    public List<Integer> getVariation2() {
+        return variation2;
+    }
+
+    public void setVariation2(List<Integer> variation2) {
+        this.variation2 = variation2;
+    }
+
     public String getData3() {
         return data3;
     }
 
     public void setData3(String data3) {
         this.data3 = data3;
+    }
+
+    public List<Integer> getVariation3() {
+        return variation3;
+    }
+
+    public void setVariation3(List<Integer> variation3) {
+        this.variation3 = variation3;
     }
 
     public int getPrime() {

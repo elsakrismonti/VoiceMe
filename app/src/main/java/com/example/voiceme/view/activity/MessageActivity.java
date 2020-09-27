@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.voiceme.Firebase;
 import com.example.voiceme.R;
@@ -38,7 +39,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     FirebaseUser fUser;
     DatabaseReference reference;
     Toolbar chatToolBar;
-    EditText eTMessage;
+    TextView tVProgress;
     String userId;
     List<ChatModel> mChat;
 
@@ -79,7 +80,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     }
 
     private void initialize() {
-        eTMessage = findViewById(R.id.eTMessage);
+        tVProgress = findViewById(R.id.tVProgress);
         recyclerView = findViewById(R.id.recycle_view_message);
         messagePresenter = new MessagePresenter(this);
         pulsatorLayout = findViewById(R.id.pulsator);
@@ -139,6 +140,11 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     public void requestPermission() {
         ActivityCompat.requestPermissions(this, new
                 String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, REQUEST_PERMISSION_CODE);
+    }
+
+    @Override
+    public void setTVProgressText(String text) {
+        tVProgress.setText(text);
     }
 
     @Override

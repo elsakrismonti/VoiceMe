@@ -1,6 +1,7 @@
 package com.example.voiceme;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ import java.util.Collections;
  */
 public class LevensteinCode {
     public static String compression(int[] m){
+
         Map<Integer, String> levensteinCodeTable = levensteinCodeTable(sampleVariation(sortByFreq(m)));
         StringBuilder compressed_code = new StringBuilder();
         StringBuilder padding_bit = new StringBuilder();        
@@ -70,19 +72,19 @@ public class LevensteinCode {
     }                            
   
     //HashMap Levenstein Code Table For Compression
-    public static Map<Integer, String> levensteinCodeTable(int[] sampleVariation){        
+    public static Map<Integer, String> levensteinCodeTable(List<Integer> sampleVariation){
         Map<Integer, String> elemCountMap = new HashMap<>();
-        for(int i = 0; i < sampleVariation.length; i++){
-            elemCountMap.put(sampleVariation[i], levensteinCode(i));      
+        for(int i = 0; i < sampleVariation.size(); i++){
+            elemCountMap.put(sampleVariation.get(i), levensteinCode(i));
         }   
         return  elemCountMap;                
     }
     
     //HashMap Levenstein Code Table For Decompression
-    public static Map<String, Integer> levensteinCodeTableDec(int[] sampleVariation){        
+    public static Map<String, Integer> levensteinCodeTableDec(List<Integer> sampleVariation){
         Map<String, Integer> elemCountMap = new HashMap<>();
-        for(int i = 0; i < sampleVariation.length; i++){
-            elemCountMap.put(levensteinCode(i), sampleVariation[i]);          
+        for(int i = 0; i < sampleVariation.size(); i++){
+            elemCountMap.put(levensteinCode(i), sampleVariation.get(i));
         }   
         return  elemCountMap;                
     }
@@ -153,16 +155,14 @@ public class LevensteinCode {
     }
     
     //Sample variation in samples
-    public static int[] sampleVariation(Map<Integer, Integer> sampleSortByFreq){
+    public static List<Integer> sampleVariation(Map<Integer, Integer> sampleSortByFreq){
         int m = totalSampleVariaton(sampleSortByFreq);
-        int variation[] = new int[m];
-        int i = 0;
+        List<Integer> variationList = new ArrayList<>(m);
         for (Map.Entry mapElement : sampleSortByFreq.entrySet()) { 
-            int key = (int)mapElement.getKey(); 
-            variation[i] = key;
-            i++;
+            Integer key = (Integer) mapElement.getKey();
+            variationList.add(key);
         }
-        return variation;        
-    }    
+        return variationList;
+    }
 
 }

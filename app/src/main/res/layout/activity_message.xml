@@ -27,8 +27,8 @@
         android:paddingLeft="15dp"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true">
-        <EditText
-            android:id="@+id/eTMessage"
+        <TextView
+            android:id="@+id/tVProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxHeight="175dp"
@@ -40,8 +40,7 @@
             android:background="@drawable/message_input"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/White"
-            android:textColorHint="@color/cardview_shadow_start_color"
-            android:hint="@string/type_message"
+            android:text="yes"
             android:layout_toLeftOf="@id/bSendMessage"
             android:layout_centerVertical="true"/>
         <FrameLayout
