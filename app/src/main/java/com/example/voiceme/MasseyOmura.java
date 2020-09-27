@@ -36,7 +36,7 @@ public class MasseyOmura {
     
     //Encryption
     public int[] encryption(int[] c){
-        int temp[] = new int[c.length];
+        int[] temp = new int[c.length];
         for(int i = 0; i < c.length; i++){
             temp[i] = Math.modularExponentiation(c[i], e, p);
         }

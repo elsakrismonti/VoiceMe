@@ -40,7 +40,7 @@ public class Math {
     }  
     
     //Binary to Decimal
-    public static int binnaryToDecimal(String b){
+    public static int binaryToDecimal(String b){
         int dec_b = 0;
         int base = 1;
         for(int i = (b.length()-1); i >= 0; i--){
@@ -60,7 +60,7 @@ public class Math {
             if(binary_e.charAt(i) == '0' ) m = m.multiply(m).mod(p);
             else m = c.multiply(m).multiply(m).mod(p);
         }
-        return Integer.valueOf(m.toString());
+        return Integer.parseInt(m.toString());
     } 
 
     //Agrawal-Biswas

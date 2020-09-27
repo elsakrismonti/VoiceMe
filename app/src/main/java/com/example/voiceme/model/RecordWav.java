@@ -104,6 +104,8 @@ public class RecordWav {
 
         if(null != recorder){
             isRecording = false;
+//            recorder.stop();
+//            recorder.release();
             int i = recorder.getState();
             if(i==1)
                 recorder.stop();
@@ -114,7 +116,9 @@ public class RecordWav {
         copyWaveFile(getRawFilename(),getFilename());
         //deleteTempFile();
         return (getRawFilename());
+//        return null;
     }
+
 
 
     private void copyWaveFile(String inFilename, String outFilename){

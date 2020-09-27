@@ -1,5 +1,7 @@
 package com.example.voiceme;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -38,7 +40,15 @@ public class LevensteinCode {
             flag_bit = Math.decimalToBinnaryFlag(compressed_code_length % 8);
             compressed_code.append(flag_bit);
         }
-        return compressed_code.toString();
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0; i < compressed_code.length() / 8; i++) {
+            String s = Character.toString((char) Math.binaryToDecimal(compressed_code.substring(i*8, i*8 + 8 )));
+            ret.append(s);
+        }
+
+        return ret.toString();
     }
     
     //Decompression
@@ -50,7 +60,7 @@ public class LevensteinCode {
         int length, flag_bit, erase;               
         
         length = compressed_m.length();
-        flag_bit = Math.binnaryToDecimal(compressed_m.substring(length-8, length));
+        flag_bit = Math.binaryToDecimal(compressed_m.substring(length-8, length));
         erase = length-(flag_bit+8);
         compressed_m.delete(erase, length);
         int i = 0;
