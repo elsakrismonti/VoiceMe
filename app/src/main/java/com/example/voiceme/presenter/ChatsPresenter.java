@@ -1,12 +1,9 @@
 package com.example.voiceme.presenter;
 
 import android.content.Context;
-import android.view.View;
-
 import com.example.voiceme.Firebase;
 import com.example.voiceme.adapter.UserRecycleViewAdapter;
 import com.example.voiceme.model.UserModel;
-import com.example.voiceme.view.fragment.ChatsFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,7 +29,7 @@ public class ChatsPresenter {
         this.myRecycleView = myRecycleView;
         friendsList = new ArrayList<>();
         String currentUserId = Firebase.currentUser().getUid();
-        Firebase.DataBase.user().document(currentUserId).collection("chat")
+        Firebase.DataBase.user().document(currentUserId).collection("chats")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

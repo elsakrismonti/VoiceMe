@@ -53,7 +53,6 @@ public class RecordWav {
         recordingThread.start();
     }
 
-
     private void writeAudioDataToFile(){
         byte data[] = new byte[bufferSize];
         String filename = getRawFilename();

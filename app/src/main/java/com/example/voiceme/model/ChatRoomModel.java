@@ -1,7 +1,6 @@
 package com.example.voiceme.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class ChatRoomModel {
     private String id;

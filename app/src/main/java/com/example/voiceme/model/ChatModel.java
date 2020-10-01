@@ -1,7 +1,5 @@
 package com.example.voiceme.model;
 
-import com.google.firebase.Timestamp;
-
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +16,12 @@ public class ChatModel {
     private int prime;
     private String dataFinal;
     private Date createAt = new Date();
+
+    public ChatModel(String senderId, String dataFinal, Date createAt) {
+        this.senderId = senderId;
+        this.dataFinal = dataFinal;
+        this.createAt = createAt;
+    }
 
     public ChatModel() {
     }

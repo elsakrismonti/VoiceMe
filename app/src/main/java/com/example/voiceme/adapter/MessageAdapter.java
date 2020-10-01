@@ -3,8 +3,6 @@ package com.example.voiceme.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +11,12 @@ import android.widget.TextView;
 import com.example.voiceme.Firebase;
 import com.example.voiceme.R;
 import com.example.voiceme.model.ChatModel;
-import com.example.voiceme.view.activity.MessageActivity;
-import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
 
@@ -31,7 +27,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     List<ChatModel> mDataMessage;
 
 
-    FirebaseUser fUser;
+    private String currentUserId;
 
     public MessageAdapter(Context mContext, List<ChatModel> mDataMessage) {
         this.mContext = mContext;
@@ -55,7 +51,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         ChatModel chat = mDataMessage.get(position);
-       //holder.tVShowMessage.setText(chat.getMessage());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        holder.tVCreateAt.setText(formatter.format(chat.getCreateAt().getTime()));
+        holder.tVShowMessage.setText("hello");
 
     }
 
@@ -67,23 +65,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tVShowMessage;
+        private TextView tVCreateAt;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tVCreateAt = itemView.findViewById(R.id.createAt);
             tVShowMessage = itemView.findViewById(R.id.show_message);
 
         }
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//
-//        fUser = Firebase.currentUser();
-////        if(mDataMessage.get(position).getSender().equals(fUser.getUid())){
-////            return MSG_TYPE_RIGHT;
-////        } else {
-////            return MSG_TYPE_LEFT;
-////        }
-//
-//    }
+    @Override
+    public int getItemViewType(int position) {
+
+        currentUserId= Firebase.currentUser().getUid();
+        if(mDataMessage.get(position).getSenderId().equals(currentUserId)){
+            return MSG_TYPE_RIGHT;
+        } else {
+            return MSG_TYPE_LEFT;
+        }
+
+    }
 }

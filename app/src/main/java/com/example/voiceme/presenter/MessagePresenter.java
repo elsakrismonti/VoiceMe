@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.voiceme.Firebase;
 import com.example.voiceme.LevensteinCode;
 import com.example.voiceme.MasseyOmura;
 import com.example.voiceme.Math;
+import com.example.voiceme.adapter.MessageAdapter;
 import com.example.voiceme.model.ChatModel;
 import com.example.voiceme.model.ChatRoomModel;
 import com.example.voiceme.model.RecordWav;
@@ -23,11 +24,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,10 +37,12 @@ public class MessagePresenter {
     Presenter view;
     private Handler handler = new Handler();
     private RecordWav record = new RecordWav();
+    private RecyclerView recyclerView;
     private long startTime;
     private long finishTime;
     private double runningTime;
     private ChatRoomModel chatRoomModel;
+    private MessageAdapter adapter;
 
     public MessagePresenter(Presenter view) {
         this.view = view;
@@ -97,15 +100,16 @@ public class MessagePresenter {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     documentReference.update("id", documentReference.getId());
-                                    view.setTVProgressText("done...");
+                                    view.setTVProgressText("waiting...");
                                 }
                             });
+
+                            readMessages(recyclerView);
                         }
                     }, 100);
 
                 }
             }, 100);
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,6 +159,40 @@ public class MessagePresenter {
 
             }
         });
+    }
+
+    public void readMessages(final RecyclerView recyclerView){
+        this.recyclerView = recyclerView;
+        final String currentUserId = Firebase.currentUser().getUid();
+        final String recipientId = ((Activity) view).getIntent().getStringExtra("userId");
+        final CollectionReference rootRef = Firebase.DataBase.chatRoom();
+        final List mChat = new ArrayList<>();
+        DocumentReference reference = Firebase.DataBase.user().document(currentUserId).collection("chats").document(recipientId);
+        reference.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful() && task.getResult() != null && task.getResult().exists()){
+                            rootRef.document(task.getResult().getString("chatRoomId")).collection("messages").orderBy("createAt").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty())    {
+                                        mChat.clear();
+                                        for(DocumentSnapshot querySnapshot: task.getResult()){
+                                            ChatModel chat = new ChatModel(querySnapshot.getString("senderId"), querySnapshot.getString("dataFinal"),
+                                            querySnapshot.getDate("createAt"));
+                                            mChat.add(chat);
+                                            adapter = new MessageAdapter(((Activity) view), mChat);
+                                            recyclerView.setAdapter(adapter);;
+                                        }
+                                    }
+                                }
+                            });
+                        }else{
+                            view.setTVProgressText("No Messages");
+                        }
+                    }
+                });
     }
 
     private void startRecording() {

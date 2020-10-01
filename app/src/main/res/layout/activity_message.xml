@@ -40,7 +40,7 @@
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:text="yes"
+            android:text="Progress :"
             android:textColor="@color/White"
             android:textSize="17dp" />
 
