@@ -9,7 +9,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/createAt"
             android:layout_width="wrap_content"
@@ -22,21 +21,44 @@
             android:layout_toLeftOf="@id/show_message"
             android:layout_alignBottom="@id/show_message"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/show_message"
-            android:layout_width="wrap_content"
+            android:padding="3dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/hello"
-            android:paddingRight="15dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:textSize="17dp"
-            android:paddingBottom="8dp"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="#fff"
+            android:gravity="center_vertical"
             android:background="@drawable/background_right"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:paddingEnd="10dp"
+
+            >
+            <ImageView
+                android:id="@+id/imagePlayPause"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_play"
+                />
+            <TextView
+                android:id="@+id/currentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:textColor="@color/White"
+                android:layout_marginLeft="5dp"
+                android:textSize="16sp"
+                />
+            <SeekBar
+                android:id="@+id/playSeekBar"
+                android:layout_width="6dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 

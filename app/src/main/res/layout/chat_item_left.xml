@@ -5,19 +5,41 @@
     android:padding="8dp"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
         android:id="@+id/show_message"
-        android:fontFamily="sans-serif-condensed"
+        android:padding="3dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="17dp"
-        android:text="@string/hello"
-        android:background="@drawable/background_left"/>
+        android:gravity="center_vertical"
+        android:background="@drawable/background_left"
+
+        >
+        <ImageView
+            android:id="@+id/imagePlayPause"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_play"
+            />
+        <TextView
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            android:textColor="@color/Black"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+            />
+        <SeekBar
+            android:id="@+id/playSeekBar"
+            android:layout_width="6dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/createAt"
         android:layout_width="wrap_content"
