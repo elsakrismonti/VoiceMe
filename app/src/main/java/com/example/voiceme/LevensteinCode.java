@@ -1,9 +1,6 @@
 package com.example.voiceme;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -34,10 +31,10 @@ public class LevensteinCode {
         if(compressed_code_length % 8 != 0) {
             for(int i = 0; i < 8 - (compressed_code_length % 8); i++) 
                 padding_bit.append("0");
-            flag_bit = Math.decimalToBinnaryFlag(8 - (compressed_code_length % 8));
+            flag_bit = Math.decimalToBinary8Bits(8 - (compressed_code_length % 8));
             compressed_code.append(padding_bit).append(flag_bit);
         }else {
-            flag_bit = Math.decimalToBinnaryFlag(compressed_code_length % 8);
+            flag_bit = Math.decimalToBinary8Bits(compressed_code_length % 8);
             compressed_code.append(flag_bit);
         }
 
@@ -54,14 +51,19 @@ public class LevensteinCode {
     //Decompression
     public static int[] decompression(String compressed, int[] m){
         Map<String, Integer> levensteinCodeTable = levensteinCodeTableDec(sampleVariation(sortByFreq(m)));
-        StringBuilder compressed_m = new StringBuilder(compressed);        
+        StringBuilder compressed_m = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         List<Integer> m_list = new ArrayList<>();
-        int length, flag_bit, erase;               
-        
+        int length, flag_bit, erase;
+
+        for(int i = 0; i < compressed.length(); i++){
+            String s = Math.decimalToBinary8Bits((int) compressed.charAt(i));
+            compressed_m.append(s);
+        }
+
         length = compressed_m.length();
-        flag_bit = Math.binaryToDecimal(compressed_m.substring(length-8, length));
-        erase = length-(flag_bit+8);
+        flag_bit = Math.binaryToDecimal(compressed_m.substring(length - 8, length));
+        erase = length - (flag_bit + 8);
         compressed_m.delete(erase, length);
         int i = 0;
         while(compressed_m.length() != 0){
@@ -108,13 +110,13 @@ public class LevensteinCode {
         int C = 1, M;
         
         if(n == 0) return "0";        
-            n_binnary = Math.decimalToBinnary(n);
+            n_binnary = Math.decimalToBinary(n);
             right = n_binnary.substring(1,n_binnary.length());
             code_so_far.insert(0, right);
             M = right.length();
             while(M != 0){
                 C++;
-                n_binnary = Math.decimalToBinnary(M);
+                n_binnary = Math.decimalToBinary(M);
                 right = n_binnary.substring(1,n_binnary.length());
                 code_so_far.insert(0, right);
                 M = right.length();

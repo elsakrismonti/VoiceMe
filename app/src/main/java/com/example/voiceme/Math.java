@@ -16,7 +16,7 @@ public class Math {
     }
     
     // Decimal to Binary
-    public static String decimalToBinnary(int e){
+    public static String decimalToBinary(int e){
         String binary = "";
         while(e > 0){
             if(e % 2 == 0) binary = "0" + binary;
@@ -27,7 +27,7 @@ public class Math {
     }  
     
     // Decimal to Binary
-    public static String decimalToBinnaryFlag(int e){
+    public static String decimalToBinary8Bits(int e){
         String binnary = "";
         while(e > 0){
             if(e % 2 == 0) binnary = "0" + binnary;
@@ -55,7 +55,7 @@ public class Math {
         BigInteger m = new BigInteger(1 + "");
         BigInteger c = new BigInteger(d + "");
         BigInteger p = new BigInteger(f + "");
-        String binary_e = decimalToBinnary(e);
+        String binary_e = decimalToBinary(e);
         for(int i = 0; i < binary_e.length(); i++){
             if(binary_e.charAt(i) == '0' ) m = m.multiply(m).mod(p);
             else m = c.multiply(m).multiply(m).mod(p);

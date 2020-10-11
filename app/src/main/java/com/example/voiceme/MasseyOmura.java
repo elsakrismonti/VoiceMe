@@ -1,6 +1,8 @@
 
 package com.example.voiceme;
 
+import android.util.Log;
+
 /**
  *
  * @author elsakrismonti@gmail.com
@@ -9,21 +11,24 @@ public class MasseyOmura {
     
     public int p;
     private int e, d;
-    		
+
     //Constructor
+    public MasseyOmura() {
+        p = generatePrime();
+        this.e = Math.isCoPrime(p);
+        this.d = Math.modularInverse(e, p);
+        Log.d("TAG", "p : " + p +" e :" + e +" d:" + d);
+//        System.out.println("p : " + p +" e :" + e +" d:" + d);
+    }
+    		
+    //Constructor with argument
     public MasseyOmura(int p){
         if(p == 5) p = generatePrime();
         else this.p = p;
         this.e = Math.isCoPrime(p);
         this.d = Math.modularInverse(e, p);
-        System.out.println("p : " + p +" e :" + e +" d:" + d);
-    }
-
-    public MasseyOmura() {
-        p = generatePrime();
-        this.e = Math.isCoPrime(p);
-        this.d = Math.modularInverse(e, p);
-        System.out.println("p : " + p +" e :" + e +" d:" + d);
+        Log.d("TAG", "p : " + p +" e :" + e +" d:" + d);
+//        System.out.println("p : " + p +" e :" + e +" d:" + d);
     }
 
     //Generate prime
