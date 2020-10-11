@@ -3,7 +3,6 @@ package com.example.voiceme.adapter;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,15 +11,17 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.voiceme.Firebase;
 import com.example.voiceme.R;
 import com.example.voiceme.model.ChatModel;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
 
@@ -28,13 +29,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public static final int MSG_TYPE_RIGHT = 1;
 
     Context mContext;
-    List<ChatModel> mDataMessage;
+    private List<ChatModel> mDataMessage = new ArrayList<>();
     private String currentUserId;
 
-    public MessageAdapter(Context mContext, List<ChatModel> mDataMessage) {
+    public MessageAdapter(Context mContext) {
         this.mContext = mContext;
-        this.mDataMessage = mDataMessage;
     }
+
 
     @NonNull
     @Override
@@ -61,19 +62,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         holder.iVPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.mediaPlayer.isPlaying()){
-                    holder.handler.removeCallbacks(holder.updater);
-                    holder.mediaPlayer.pause();
-                    holder.iVPlayPause.setImageResource(R.drawable.ic_play);
-                }else{
-                    holder.mediaPlayer.start();
-                    holder.iVPlayPause.setImageResource(R.drawable.ic_pause);
-                    holder.updateSeekBar();
+
+                if (chat.getDataFinal() != null) {
+                    createFile(chat.getDataFinal());
+                    if (holder.mediaPlayer.isPlaying()) {
+                        holder.handler.removeCallbacks(holder.updater);
+                        holder.mediaPlayer.pause();
+                        holder.iVPlayPause.setImageResource(R.drawable.ic_play);
+                    } else {
+                        holder.mediaPlayer.start();
+                        holder.iVPlayPause.setImageResource(R.drawable.ic_pause);
+                        holder.updateSeekBar();
+                    }
                 }
+
+
             }
         });
 
-        holder.prepareMediaPlayer(source);
+//        holder.prepareMediaPlayer(source);
 
         holder.seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -100,9 +107,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 holder.iVPlayPause.setImageResource(R.drawable.ic_play);
                 holder.tVCurrentTime.setText(R.string.zero);
                 mediaPlayer.reset();
-                holder.prepareMediaPlayer(source);
+//                holder.prepareMediaPlayer(source);
             }
         });
+    }
+
+    private void createFile(String dataFinal) {
+        byte[] data = new byte[dataFinal.split("_").length];
+        int i = 0;
+        for (String s :
+                dataFinal.split("_")) {
+            if (i < data.length) {
+                data[i] = Byte.parseByte(s);
+            }
+        }
+
     }
 
     @Override
@@ -110,7 +129,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         return mDataMessage.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public void setmDataMessage(List<ChatModel> mDataMessage) {
+        this.mDataMessage = mDataMessage;
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tVCreateAt;
         private ImageView iVPlayPause;
@@ -130,13 +153,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         }
 
         public void prepareMediaPlayer(String source){
-            try{
+            try {
                 mediaPlayer.setDataSource(source);
                 mediaPlayer.prepare();
-
-            }catch (Exception exception){
-                Log.d("TAG", exception.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         }
 
         private Runnable updater = new Runnable() {

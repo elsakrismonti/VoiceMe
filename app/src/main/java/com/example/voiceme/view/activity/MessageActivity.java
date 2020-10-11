@@ -1,16 +1,5 @@
 package com.example.voiceme.view.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,13 +10,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.voiceme.Firebase;
 import com.example.voiceme.R;
+import com.example.voiceme.adapter.MessageAdapter;
+import com.example.voiceme.model.ChatModel;
 import com.example.voiceme.presenter.MessagePresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.List;
+
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -39,6 +38,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     TextView tVProgress;
     String recipientId;
 
+    private MessageAdapter adapter;
     private RecyclerView recyclerView;
     private ImageView micImage;
     private ImageButton btnRecord;
@@ -67,8 +67,6 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
         btnRecord = findViewById(R.id.btn_record);
         animScale = AnimationUtils.loadAnimation(this,R.anim.scale);
         chatToolBar = findViewById(R.id.chat_toolbar);
-        i = getIntent();
-        recipientId = i.getStringExtra("userId");
     }
 
     private void settingActionBar() {
@@ -77,13 +75,6 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
         currentUserId = Firebase.currentUser().getUid();
-        Firebase.DataBase.user().document(recipientId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                getSupportActionBar().setTitle(task.getResult().getString("userName"));
-                messagePresenter.readMessages(recyclerView);
-            }
-        });
     }
 
     private void setRecycleView() {
@@ -91,6 +82,8 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new MessageAdapter(this);
+        recyclerView.setAdapter(adapter);
     }
 
     public void sendMessageBtn(View view) {
@@ -100,9 +93,15 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        messagePresenter.destroy();
     }
 
     @Override
@@ -140,8 +139,15 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     }
 
     @Override
-    public Context getAppContext() {
-        return this.getApplicationContext();
+    public void updateList(List<ChatModel> chatModels) {
+        adapter.setmDataMessage(chatModels);
+        adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void setName(String username) {
+        chatToolBar.setTitle(username);
+    }
+
 
 }

@@ -1,29 +1,28 @@
 package com.example.voiceme.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class ChatModel {
 
     private String id;
     private String senderId;
-    private String data1;
-    private List<Integer> variation1;
-    private String data2;
-    private List<Integer> variation2;
-    private String data3;
-    private List<Integer> variation3;
-    private int prime;
+    private Data data1 = new Data();
+    private Data data2 = new Data();
+    private Data data3 = new Data();
     private String dataFinal;
     private Date createAt = new Date();
 
-    public ChatModel(String senderId, String dataFinal, Date createAt) {
-        this.senderId = senderId;
-        this.dataFinal = dataFinal;
-        this.createAt = createAt;
+    public ChatModel() {
     }
 
-    public ChatModel() {
+    public ChatModel(String id, String senderId, Data data1, Data data2, Data data3, String dataFinal, Date createAt) {
+        this.id = id;
+        this.senderId = senderId;
+        this.data1 = data1;
+        this.data2 = data2;
+        this.data3 = data3;
+        this.dataFinal = dataFinal;
+        this.createAt = createAt;
     }
 
     public String getId() {
@@ -42,60 +41,28 @@ public class ChatModel {
         this.senderId = senderId;
     }
 
-    public String getData1() {
+    public Data getData1() {
         return data1;
     }
 
-    public void setData1(String data1) {
+    public void setData1(Data data1) {
         this.data1 = data1;
     }
 
-    public List<Integer> getVariation1() {
-        return variation1;
-    }
-
-    public void setVariation1(List<Integer> variation1) {
-        this.variation1 = variation1;
-    }
-
-    public String getData2() {
+    public Data getData2() {
         return data2;
     }
 
-    public void setData2(String data2) {
+    public void setData2(Data data2) {
         this.data2 = data2;
     }
 
-    public List<Integer> getVariation2() {
-        return variation2;
-    }
-
-    public void setVariation2(List<Integer> variation2) {
-        this.variation2 = variation2;
-    }
-
-    public String getData3() {
+    public Data getData3() {
         return data3;
     }
 
-    public void setData3(String data3) {
+    public void setData3(Data data3) {
         this.data3 = data3;
-    }
-
-    public List<Integer> getVariation3() {
-        return variation3;
-    }
-
-    public void setVariation3(List<Integer> variation3) {
-        this.variation3 = variation3;
-    }
-
-    public int getPrime() {
-        return prime;
-    }
-
-    public void setPrime(int prime) {
-        this.prime = prime;
     }
 
     public String getDataFinal() {
@@ -112,5 +79,18 @@ public class ChatModel {
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatModel{" +
+                "id='" + id + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", data1=" + data1 +
+                ", data2=" + data2 +
+                ", data3=" + data3 +
+                ", dataFinal='" + dataFinal + '\'' +
+                ", createAt=" + createAt +
+                '}';
     }
 }

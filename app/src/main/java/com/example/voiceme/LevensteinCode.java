@@ -1,6 +1,7 @@
 package com.example.voiceme;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -8,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Collections;
 
 /**
  *
@@ -47,17 +47,17 @@ public class LevensteinCode {
 
         return ret.toString();
     }
-    
+
     //Decompression
-    public static int[] decompression(String compressed, int[] m){
-        Map<String, Integer> levensteinCodeTable = levensteinCodeTableDec(sampleVariation(sortByFreq(m)));
+    public static int[] decompression(String compressed, List<Integer> m) {
+        Map<String, Integer> levensteinCodeTable = levensteinCodeTableDec(m);
         StringBuilder compressed_m = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         List<Integer> m_list = new ArrayList<>();
         int length, flag_bit, erase;
 
-        for(int i = 0; i < compressed.length(); i++){
-            String s = Math.decimalToBinary8Bits((int) compressed.charAt(i));
+        for (int i = 0; i < compressed.length(); i++) {
+            String s = Math.decimalToBinary8Bits(compressed.charAt(i));
             compressed_m.append(s);
         }
 
@@ -109,15 +109,15 @@ public class LevensteinCode {
         
         int C = 1, M;
         
-        if(n == 0) return "0";        
-            n_binnary = Math.decimalToBinary(n);
-            right = n_binnary.substring(1,n_binnary.length());
-            code_so_far.insert(0, right);
+        if(n == 0) return "0";
+        n_binnary = Math.decimalToBinary(n);
+        right = n_binnary.substring(1);
+        code_so_far.insert(0, right);
             M = right.length();
             while(M != 0){
                 C++;
                 n_binnary = Math.decimalToBinary(M);
-                right = n_binnary.substring(1,n_binnary.length());
+                right = n_binnary.substring(1);
                 code_so_far.insert(0, right);
                 M = right.length();
             }
