@@ -91,8 +91,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                         holder.updateSeekBar();
                     }
                 }
-
-
             }
         });
 

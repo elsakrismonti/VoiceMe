@@ -98,7 +98,6 @@ public class MessagePresenter {
         Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
         final Data data1 = new Data();
         data1.setKey(keys);
-        data1.setBufferSize(record.getBufferSize());
 
         File audio = new File(filePath);
 

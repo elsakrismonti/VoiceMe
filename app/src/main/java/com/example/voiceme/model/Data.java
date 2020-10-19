@@ -6,16 +6,14 @@ public class Data {
     private Keys key = new Keys();
     private String data;
     private List<Integer> variations;
-    private int bufferSize;
 
     public Data() {
     }
 
-    public Data(Keys key, String data, List<Integer> variations, int bufferSize) {
+    public Data(Keys key, String data, List<Integer> variations) {
         this.key = key;
         this.data = data;
         this.variations = variations;
-        this.bufferSize = bufferSize;
     }
 
     public Keys getKey() {
@@ -42,21 +40,12 @@ public class Data {
         this.variations = variations;
     }
 
-    public int getBufferSize() {
-        return bufferSize;
-    }
-
-    public void setBufferSize(int bufferSize) {
-        this.bufferSize = bufferSize;
-    }
-
     @Override
     public String toString() {
         return "Data{" +
                 "key=" + key +
                 ", data='" + data + '\'' +
                 ", variations=" + variations +
-                ", bufferSize=" + bufferSize +
                 '}';
     }
 }

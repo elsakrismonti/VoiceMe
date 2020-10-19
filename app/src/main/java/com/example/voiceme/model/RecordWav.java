@@ -84,10 +84,6 @@ public class RecordWav {
         }
     }
 
-    public int getBufferSize(){
-        return bufferSize;
-    }
-
     public String getRawFilename(){
 
         String filepath = Environment.getExternalStorageDirectory().getPath();
