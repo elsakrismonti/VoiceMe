@@ -67,6 +67,7 @@ public class MessagePresenter {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 UserModel userModel = task.getResult().toObject(UserModel.class);
                 view.setName(userModel.getUsername());
+                Log.d("TAG", "username" + userModel.getUsername());
                 readMessages();
             }
         });
@@ -97,6 +98,7 @@ public class MessagePresenter {
         Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
         final Data data1 = new Data();
         data1.setKey(keys);
+        data1.setBufferSize(record.getBufferSize());
 
         File audio = new File(filePath);
 
@@ -240,6 +242,7 @@ public class MessagePresenter {
                                     });
                                 }
 
+//                                Data Final
                                 if (chat.getData3().getData() != null && chat.getDataFinal() == null) {
                                     MasseyOmura masseyOmura = new MasseyOmura(chat.getData2().getKey().getP(), chat.getData2().getKey().getD());
                                     final int[] decompressed = LevensteinCode.decompression(chat.getData3().getData(), chat.getData3().getVariations());

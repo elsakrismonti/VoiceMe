@@ -63,8 +63,6 @@ public class RecordWav {
             e.printStackTrace();
         }
         int read = 0;
-
-
         if(null != os){
             while(isRecording){
                 read = recorder.read(data, 0, bufferSize);
@@ -84,6 +82,10 @@ public class RecordWav {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getBufferSize(){
+        return bufferSize;
     }
 
     public String getRawFilename(){
@@ -117,8 +119,6 @@ public class RecordWav {
         return (getRawFilename());
 //        return null;
     }
-
-
 
     private void copyWaveFile(String inFilename, String outFilename){
 

@@ -2,6 +2,8 @@ package com.example.voiceme.adapter;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.voiceme.Firebase;
 import com.example.voiceme.R;
 import com.example.voiceme.model.ChatModel;
+import com.example.voiceme.model.CreateWav;
+import com.example.voiceme.model.RecordWav;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +32,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
+    private CreateWav createWav;
 
     Context mContext;
     private List<ChatModel> mDataMessage = new ArrayList<>();
@@ -51,13 +57,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         }
     }
 
+    public String getFilename(String filename){
+
+        String filepath = Environment.getExternalStorageDirectory().getPath();
+        File file = new File(filepath,"AudioRecorder");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        return (file.getAbsolutePath() + "/" + filename + ".wav");
+    }
+
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final ChatModel chat = mDataMessage.get(position);
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         holder.tVCreateAt.setText(formatter.format(chat.getCreateAt().getTime()));
-        final String source = "http://infinityandroid.com/music/good_times.mp3";
+        final String source = getFilename("Wav_final");
 
         holder.iVPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +96,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             }
         });
 
-//        holder.prepareMediaPlayer(source);
+        holder.prepareMediaPlayer(source);
 
         holder.seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -107,7 +123,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 holder.iVPlayPause.setImageResource(R.drawable.ic_play);
                 holder.tVCurrentTime.setText(R.string.zero);
                 mediaPlayer.reset();
-//                holder.prepareMediaPlayer(source);
+                holder.prepareMediaPlayer(source);
             }
         });
     }
@@ -121,7 +137,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 data[i] = Byte.parseByte(s);
             }
         }
-
+        createWav = new CreateWav(data);
+        createWav.createWaveFile();
     }
 
     @Override
