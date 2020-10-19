@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.voiceme.Firebase;
+import com.example.voiceme.Math;
 import com.example.voiceme.R;
 import com.example.voiceme.model.ChatModel;
 import com.example.voiceme.model.CreateWav;
@@ -74,25 +75,29 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         holder.tVCreateAt.setText(formatter.format(chat.getCreateAt().getTime()));
         final String source = getFilename("Wav_final");
+        try{
+            holder.iVPlayPause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        holder.iVPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (chat.getDataFinal() != null) {
-                    createFile(chat.getDataFinal());
-                    if (holder.mediaPlayer.isPlaying()) {
-                        holder.handler.removeCallbacks(holder.updater);
-                        holder.mediaPlayer.pause();
-                        holder.iVPlayPause.setImageResource(R.drawable.ic_play);
-                    } else {
-                        holder.mediaPlayer.start();
-                        holder.iVPlayPause.setImageResource(R.drawable.ic_pause);
-                        holder.updateSeekBar();
+                    if (chat.getDataFinal() != null) {
+                        createFile(chat.getDataFinal());
+                        if (holder.mediaPlayer.isPlaying()) {
+                            holder.handler.removeCallbacks(holder.updater);
+                            holder.mediaPlayer.pause();
+                            holder.iVPlayPause.setImageResource(R.drawable.ic_play);
+                        } else {
+                            holder.mediaPlayer.start();
+                            holder.iVPlayPause.setImageResource(R.drawable.ic_pause);
+                            holder.updateSeekBar();
+                        }
                     }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         holder.prepareMediaPlayer(source);
 
@@ -128,11 +133,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     private void createFile(String dataFinal) {
         byte[] data = new byte[dataFinal.split("_").length];
+        int temp;
         int i = 0;
         for (String s :
                 dataFinal.split("_")) {
             if (i < data.length) {
-                data[i] = Byte.parseByte(s);
+                temp = Integer.parseInt(s);
+                data[i] = (byte) temp;
             }
         }
         createWav = new CreateWav(data);

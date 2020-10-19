@@ -291,7 +291,6 @@ public class MessagePresenter {
                             mChat.add(chat);
                             view.updateList(mChat);
                         }
-
 //                                            adapter = new MessageAdapter(((Activity) view), mChat);
 //                                            recyclerView.setAdapter(adapter);;
                     }
