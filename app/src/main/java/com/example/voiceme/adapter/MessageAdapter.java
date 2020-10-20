@@ -133,14 +133,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     private void createFile(String dataFinal) {
         byte[] data = new byte[dataFinal.split("_").length];
-        int temp;
         int i = 0;
         for (String s :
                 dataFinal.split("_")) {
-            if (i < data.length) {
-                temp = Integer.parseInt(s);
-                data[i] = (byte) temp;
-            }
+            byte temp = (byte)Integer.parseInt(s);
+            data[i] = temp;
+            i++;
         }
         createWav = new CreateWav(data);
         createWav.createWaveFile();

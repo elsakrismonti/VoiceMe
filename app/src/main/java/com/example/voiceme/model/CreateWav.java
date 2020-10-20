@@ -4,11 +4,14 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.os.Environment;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class CreateWav {
 
@@ -85,7 +88,7 @@ public class CreateWav {
         long longSampleRate = RECORDER_SAMPLERATE;
         int channels = 1;
         long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels/8;
-        byte[] data = new byte[bufferSize];
+        byte[] data = new byte[bytes.length];
         try {
             in = new FileInputStream(inFilename);
             out = new FileOutputStream(outFilename);
