@@ -140,7 +140,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
 
     @Override
     public void updateList(List<ChatModel> chatModels) {
-        adapter.setmDataMessage(chatModels);
+        adapter.setDataMessage(chatModels);
         adapter.notifyDataSetChanged();
     }
 

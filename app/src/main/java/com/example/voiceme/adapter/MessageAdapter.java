@@ -149,7 +149,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         return mDataMessage.size();
     }
 
-    public void setmDataMessage(List<ChatModel> mDataMessage) {
+    public void setDataMessage(List<ChatModel> mDataMessage) {
         this.mDataMessage = mDataMessage;
     }
 
