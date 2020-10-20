@@ -58,16 +58,15 @@ public class MessagePresenter {
         recipientId = ((Activity) view).getIntent().getStringExtra("userId");
         currentUserId = Firebase.currentUser().getUid();
         checkRoom();
-        getUserName();
+        getUserName(recipientId);
     }
 
-    private void getUserName() {
-        Firebase.DataBase.user().document(Objects.requireNonNull(((Activity) view).getIntent().getStringExtra("userId"))).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    private void getUserName(String recipientId) {
+//        ((Activity) view).getIntent().getStringExtra("userId"))
+        Firebase.DataBase.user().document(Objects.requireNonNull(recipientId)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                UserModel userModel = task.getResult().toObject(UserModel.class);
-                view.setName(userModel.getUsername());
-                Log.d("TAG", "username" + userModel.getUsername());
+                view.setName(task.getResult().getString("userName"));
                 readMessages();
             }
         });
@@ -112,7 +111,11 @@ public class MessagePresenter {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    startTime = System.currentTimeMillis();
                     final int[] encryption = masseyOmura.encryption(samplesInt);
+                    finishTime = System.currentTimeMillis();
+                    runningTime = runningTime = (finishTime - startTime)*0.001;
+                    Log.d("RUNNING TIME ", runningTime+"s");
                     final List<Integer> dataVariation1 = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(encryption));
                     view.setTVProgressText("compressing...");
                     new Handler().postDelayed(new Runnable() {

@@ -1,6 +1,5 @@
 package com.example.voiceme.view.activity;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -47,8 +46,6 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
     private MessagePresenter messagePresenter;
     private static final int REQUEST_PERMISSION_CODE = 1;
 
-    Intent i;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +53,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
         initialize();
         settingActionBar();
         setRecycleView();
+
     }
 
     private void initialize() {
@@ -146,7 +144,7 @@ public class MessageActivity extends AppCompatActivity implements MessagePresent
 
     @Override
     public void setName(String username) {
-        chatToolBar.setTitle(username);
+        getSupportActionBar().setTitle(username);
     }
 
 

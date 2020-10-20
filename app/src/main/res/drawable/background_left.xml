@@ -4,12 +4,11 @@
 
     <item>
         <rotate
-            android:fromDegrees="-35"
+            android:fromDegrees="-40"
             android:pivotX="0%"
             android:pivotY="0%"
             android:toDegrees="0">
             <shape android:shape="rectangle">
-                <corners android:radius="4dp"/>
                 <solid android:color="@color/White" />
             </shape>
         </rotate>
