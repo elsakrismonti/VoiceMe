@@ -283,7 +283,7 @@ public class MessagePresenter {
                                     }
                                 }
 //                                Data Final
-                                if (chat.getData3().getData() != null && chat.getDataFinal() == null) {
+                                if (chat.getData3().getData() != null && chat.getDataFinal().getDataFinal() == null) {
                                     try{
                                         final MasseyOmura masseyOmura = new MasseyOmura(chat.getData2().getKey().getP(), chat.getData2().getKey().getD());
                                         view.setTVProgressText("decompressing...");
