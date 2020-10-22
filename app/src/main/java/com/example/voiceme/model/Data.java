@@ -4,16 +4,26 @@ import java.util.List;
 
 public class Data {
     private Keys key = new Keys();
+    private RunningTime time = new RunningTime();
     private String data;
     private List<Integer> variations;
 
     public Data() {
     }
 
-    public Data(Keys key, String data, List<Integer> variations) {
+    public Data(Keys key, RunningTime time, String data, List<Integer> variations) {
         this.key = key;
+        this.time = time;
         this.data = data;
         this.variations = variations;
+    }
+
+    public RunningTime getTime() {
+        return time;
+    }
+
+    public void setTime(RunningTime time) {
+        this.time = time;
     }
 
     public Keys getKey() {

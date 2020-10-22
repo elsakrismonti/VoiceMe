@@ -81,7 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 public void onClick(View view) {
 
                     if (chat.getDataFinal() != null) {
-                        createFile(chat.getDataFinal());
+                        createFile(chat.getDataFinal().getDataFinal());
                         if (holder.mediaPlayer.isPlaying()) {
                             holder.handler.removeCallbacks(holder.updater);
                             holder.mediaPlayer.pause();

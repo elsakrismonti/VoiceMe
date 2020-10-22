@@ -9,13 +9,13 @@ public class ChatModel {
     private Data data1 = new Data();
     private Data data2 = new Data();
     private Data data3 = new Data();
-    private String dataFinal;
+    private DataFinal dataFinal = new DataFinal();
     private Date createAt = new Date();
 
     public ChatModel() {
     }
 
-    public ChatModel(String id, String senderId, Data data1, Data data2, Data data3, String dataFinal, Date createAt) {
+    public ChatModel(String id, String senderId, Data data1, Data data2, Data data3, DataFinal dataFinal, Date createAt) {
         this.id = id;
         this.senderId = senderId;
         this.data1 = data1;
@@ -65,11 +65,11 @@ public class ChatModel {
         this.data3 = data3;
     }
 
-    public String getDataFinal() {
+    public DataFinal getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(String dataFinal) {
+    public void setDataFinal(DataFinal dataFinal) {
         this.dataFinal = dataFinal;
     }
 

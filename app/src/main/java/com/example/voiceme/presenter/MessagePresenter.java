@@ -15,8 +15,10 @@ import com.example.voiceme.adapter.MessageAdapter;
 import com.example.voiceme.model.ChatModel;
 import com.example.voiceme.model.ChatRoomModel;
 import com.example.voiceme.model.Data;
+import com.example.voiceme.model.DataFinal;
 import com.example.voiceme.model.Keys;
 import com.example.voiceme.model.RecordWav;
+import com.example.voiceme.model.RunningTime;
 import com.example.voiceme.model.UserModel;
 import com.example.voiceme.utilities.WavUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +48,10 @@ public class MessagePresenter {
     private RecordWav record = new RecordWav();
     private long startTime;
     private long finishTime;
-    private double runningTime;
+    private double encRunningTime;
+    private double decRunningTime;
+    private double comRunningTime;
+    private double decomRunningTime;
     private ChatRoomModel chatRoomModel;
     private MessageAdapter adapter;
     private String roomId;
@@ -101,12 +106,9 @@ public class MessagePresenter {
         File audio = new File(filePath);
 
         try {
-            startTime = System.currentTimeMillis();
             byte[] sampleAmplitudes = WavUtil.getSampleAmplitudes(audio);
             Log.d("TAG", "sendMessage: " + sampleAmplitudes.length);
             final int[] samplesInt = Math.byteToInt(sampleAmplitudes);
-
-
             view.setTVProgressText("encrypting...");
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -114,16 +116,20 @@ public class MessagePresenter {
                     startTime = System.currentTimeMillis();
                     final int[] encryption = masseyOmura.encryption(samplesInt);
                     finishTime = System.currentTimeMillis();
-                    runningTime = runningTime = (finishTime - startTime)*0.001;
-                    Log.d("RUNNING TIME ", runningTime+"s");
+                    encRunningTime = (finishTime - startTime)*0.001;
                     final List<Integer> dataVariation1 = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(encryption));
+                    data1.setVariations(dataVariation1);
                     view.setTVProgressText("compressing...");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            startTime = System.currentTimeMillis();
                             String data = LevensteinCode.compression(encryption);
+                            finishTime = System.currentTimeMillis();
                             data1.setData(data);
-                            data1.setVariations(dataVariation1);
+                            comRunningTime = (finishTime - startTime)*0.001;
+                            RunningTime time = new RunningTime(encRunningTime, 0 , comRunningTime, 0);
+                            data1.setTime(time);
                             chatModel.setData1(data1);
 
                             view.setTVProgressText("sending...");
@@ -186,7 +192,6 @@ public class MessagePresenter {
                         }
                     });
                 }
-
             }
         });
     }
@@ -219,76 +224,172 @@ public class MessagePresenter {
                         assert chat != null;
                         if (chat.getId() != null) {
                             if (!chat.getSenderId().equals(currentUserId)) {
-
 //                            DATA 2
                                 if (chat.getData2().getData() == null) {
-                                    MasseyOmura masseyOmura = new MasseyOmura(chat.getData1().getKey().getP());
-                                    final int[] decompressed = LevensteinCode.decompression(chat.getData1().getData(), chat.getData1().getVariations());
-                                    final int[] encryption = masseyOmura.encryption(decompressed);
-                                    final List<Integer> dataVariation = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(encryption));
-                                    String data = LevensteinCode.compression(encryption);
-                                    Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
-                                    Data data2 = new Data();
-                                    data2.setKey(keys);
-                                    data2.setData(data);
-                                    data2.setVariations(dataVariation);
-                                    chat.setData2(data2);
-
-                                    Log.d("TAG", "onEvent: " + roomId + "\t" + chat);
-                                    Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot snapshot) {
-                                            if (snapshot.exists())
-                                                Firebase.DataBase.message(roomId, chat.getId()).set(chat);
-                                        }
-                                    });
+                                    try {
+                                        final MasseyOmura masseyOmura = new MasseyOmura(chat.getData1().getKey().getP());
+                                        view.setTVProgressText("decompressing...");
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startTime = System.currentTimeMillis();
+                                                final int[] decompressed = LevensteinCode.decompression(chat.getData1().getData(), chat.getData1().getVariations());
+                                                finishTime = System.currentTimeMillis();
+                                                decomRunningTime = (finishTime - startTime) * 0.001;
+                                                view.setTVProgressText("encrypting...");
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        startTime = System.currentTimeMillis();
+                                                        final int[] encryption = masseyOmura.encryption(decompressed);
+                                                        finishTime = System.currentTimeMillis();
+                                                        encRunningTime = (finishTime - startTime) * 0.001;
+                                                        view.setTVProgressText("compressing...");
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                final List<Integer> dataVariation = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(encryption));
+                                                                startTime = System.currentTimeMillis();
+                                                                String data = LevensteinCode.compression(encryption);
+                                                                finishTime = System.currentTimeMillis();
+                                                                comRunningTime = (finishTime - startTime) * 0.001;
+                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
+                                                                Data data2 = new Data();
+                                                                data2.setKey(keys);
+                                                                data2.setData(data);
+                                                                data2.setVariations(dataVariation);
+                                                                RunningTime time = new RunningTime(encRunningTime, 0, comRunningTime, decomRunningTime);
+                                                                data2.setTime(time);
+                                                                chat.setData2(data2);
+                                                                Log.d("TAG", "onEvent: " + roomId + "\t" + chat);
+                                                                view.setTVProgressText("sending...");
+                                                                Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onSuccess(DocumentSnapshot snapshot) {
+                                                                        if (snapshot.exists())
+                                                                            Firebase.DataBase.message(roomId, chat.getId()).set(chat);
+                                                                        view.setTVProgressText("waiting...");
+                                                                    }
+                                                                });
+                                                            }
+                                                        }, 100);
+                                                    }
+                                                }, 100);
+                                            }
+                                        }, 100);
+                                    }
+                                    catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-
 //                                Data Final
                                 if (chat.getData3().getData() != null && chat.getDataFinal() == null) {
-                                    MasseyOmura masseyOmura = new MasseyOmura(chat.getData2().getKey().getP(), chat.getData2().getKey().getD());
-                                    final int[] decompressed = LevensteinCode.decompression(chat.getData3().getData(), chat.getData3().getVariations());
-                                    final int[] dataFinal = masseyOmura.decryption(decompressed);
+                                    try{
+                                        final MasseyOmura masseyOmura = new MasseyOmura(chat.getData2().getKey().getP(), chat.getData2().getKey().getD());
+                                        view.setTVProgressText("decompressing...");
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startTime = System.currentTimeMillis();
+                                                final int[] decompressed = LevensteinCode.decompression(chat.getData3().getData(), chat.getData3().getVariations());
+                                                finishTime = System.currentTimeMillis();
+                                                decomRunningTime = (finishTime - startTime) * 0.001;
+                                                view.setTVProgressText("decrypting...");
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        startTime = System.currentTimeMillis();
+                                                        final int[] dataFinal = masseyOmura.decryption(decompressed);
+                                                        finishTime = System.currentTimeMillis();
+                                                        decRunningTime = (finishTime - startTime) * 0.001;
+                                                        StringBuilder s = new StringBuilder();
+                                                        for (int i : dataFinal) {
+                                                            s.append(i).append("_");
+                                                        }
+                                                        DataFinal dataFinal1 = new DataFinal();
+                                                        dataFinal1.setDataFinal(s.toString());
+                                                        RunningTime time = new RunningTime(0, decRunningTime, 0, decomRunningTime);
+                                                        dataFinal1.setTime(time);
+                                                        chat.setDataFinal(dataFinal1);
+                                                        Log.d("TAG", "onEvent: " + roomId + "\t" + chat);
 
-                                    StringBuilder s = new StringBuilder();
-                                    for (int i :
-                                            dataFinal) {
-                                        s.append(i).append("_");
+                                                        view.setTVProgressText("sending...");
+                                                        Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(DocumentSnapshot snapshot) {
+                                                                if (snapshot.exists())
+                                                                    Firebase.DataBase.message(roomId, chat.getId()).set(chat);
+                                                                view.setTVProgressText("done");
+                                                            }
+                                                        });
+                                                    }
+                                                }, 100);
+                                            }
+                                        }, 100);
                                     }
-                                    chat.setDataFinal(s.toString());
-
-                                    Log.d("TAG", "onEvent: " + roomId + "\t" + chat);
-                                    Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot snapshot) {
-                                            if (snapshot.exists())
-                                                Firebase.DataBase.message(roomId, chat.getId()).set(chat);
-                                        }
-                                    });
+                                    catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                             } else {
                                 //                            DATA 3
                                 if (chat.getData3().getData() == null && chat.getData2().getData() != null) {
-                                    MasseyOmura masseyOmura = new MasseyOmura(chat.getData1().getKey().getP(), chat.getData1().getKey().getD());
-                                    final int[] decompressed = LevensteinCode.decompression(chat.getData2().getData(), chat.getData2().getVariations());
-                                    final int[] decryption = masseyOmura.decryption(decompressed);
-                                    final List<Integer> dataVariation = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(decryption));
-                                    String data = LevensteinCode.compression(decryption);
-                                    Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
-                                    Data data3 = new Data();
-                                    data3.setKey(keys);
-                                    data3.setData(data);
-                                    data3.setVariations(dataVariation);
-                                    chat.setData3(data3);
+                                    try{
+                                        final MasseyOmura masseyOmura = new MasseyOmura(chat.getData1().getKey().getP(), chat.getData1().getKey().getD());
+                                        view.setTVProgressText("decompressing...");
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startTime = System.currentTimeMillis();
+                                                final int[] decompressed = LevensteinCode.decompression(chat.getData2().getData(), chat.getData2().getVariations());
+                                                finishTime = System.currentTimeMillis();
+                                                decomRunningTime = (finishTime - startTime) * 0.001;
+                                                view.setTVProgressText("decrypting..");
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        startTime = System.currentTimeMillis();
+                                                        final int[] decryption = masseyOmura.decryption(decompressed);
+                                                        finishTime = System.currentTimeMillis();
+                                                        decRunningTime = (finishTime - startTime) * 0.001;
+                                                        final List<Integer> dataVariation = LevensteinCode.sampleVariation(LevensteinCode.sortByFreq(decryption));
+                                                        view.setTVProgressText("compressing..");
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                startTime = System.currentTimeMillis();
+                                                                String data = LevensteinCode.compression(decryption);
+                                                                finishTime = System.currentTimeMillis();
+                                                                comRunningTime = (finishTime - startTime) * 0.001;
+                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
+                                                                Data data3 = new Data();
+                                                                data3.setKey(keys);
+                                                                data3.setData(data);
+                                                                data3.setVariations(dataVariation);
+                                                                RunningTime time = new RunningTime(0, decRunningTime, comRunningTime, decomRunningTime);
+                                                                data3.setTime(time);
+                                                                chat.setData3(data3);
 
-                                    Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot snapshot) {
-                                            if (snapshot.exists())
-                                                Firebase.DataBase.message(roomId, chat.getId()).set(chat);
-                                        }
-                                    });
+                                                                Firebase.DataBase.message(roomId, chat.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onSuccess(DocumentSnapshot snapshot) {
+                                                                        if (snapshot.exists())
+                                                                            Firebase.DataBase.message(roomId, chat.getId()).set(chat);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }, 100);
+
+                                                    }
+                                                }, 100);
+
+                                            }
+                                        }, 100);
+
+                                    }catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                             mChat.add(chat);
