@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, VerificationActivity.class);
         i.putExtra("phoneNumber",eTPhoneNumber.getText().toString());
         startActivity(i);
-        this.finish();
+
     }
 
 }
