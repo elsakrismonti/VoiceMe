@@ -131,7 +131,6 @@ public class MessagePresenter {
                             RunningTime time = new RunningTime(encRunningTime, 0 , comRunningTime, 0);
                             data1.setTime(time);
                             chatModel.setData1(data1);
-
                             view.setTVProgressText("sending...");
                             Firebase.DataBase.message(chatRoomModel.getId()).add(chatModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override

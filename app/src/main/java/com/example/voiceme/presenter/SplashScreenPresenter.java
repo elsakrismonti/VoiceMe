@@ -24,7 +24,7 @@ public class SplashScreenPresenter {
                     Helper.nextPage((Activity)v, new HomeActivity());
                 }
             }
-        }, 300);
+        }, 2000);
     }
     public interface Presenter{}
 }

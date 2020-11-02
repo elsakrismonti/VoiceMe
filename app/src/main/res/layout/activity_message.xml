@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Black"
+    android:background="@color/softGrey"
     tools:context=".view.activity.MessageActivity">
 
     <include
@@ -33,15 +33,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/bSendMessage"
-            android:background="@drawable/message_input"
-            android:fontFamily="sans-serif-condensed"
-            android:maxHeight="175dp"
+            android:background="@drawable/buttons"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:text="Progress :"
-            android:textColor="@color/White"
+            android:fontFamily="sans-serif-condensed"
+            android:maxHeight="175dp"
+            android:text="Progress"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="17dp" />
 
         <FrameLayout
@@ -56,7 +57,7 @@
                 android:id="@+id/pulsator"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:pulse_color="@color/White"
+                app:pulse_color="@color/softBlue"
                 app:pulse_count="4"
                 app:pulse_duration="1500"
                 app:pulse_interpolator="Linear"

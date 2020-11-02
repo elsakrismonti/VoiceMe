@@ -12,25 +12,22 @@ import com.example.voiceme.R;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText eTPhoneNumber;
-    Toolbar loginToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initialize();
-        setSupportActionBar(loginToolBar);
-        getSupportActionBar().setTitle("Sign In");
     }
 
     private void initialize() {
         eTPhoneNumber = findViewById(R.id.eTPhoneNumber);
-        loginToolBar = findViewById(R.id.login_toolbar);
     }
 
     public void loginAction(View view) {
         Intent i = new Intent(this, VerificationActivity.class);
         i.putExtra("phoneNumber",eTPhoneNumber.getText().toString());
         startActivity(i);
+        this.finish();
     }
 
 }

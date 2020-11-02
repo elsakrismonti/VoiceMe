@@ -4,13 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Black"
+    android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".view.activity.VerificationActivity">
-    <include
-        android:id="@+id/verification_toolbar"
-        layout="@layout/app_bar_layout"
-        ></include>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="50dp"
+        >
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:foregroundGravity="center_vertical">
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/unvisited"
+                android:padding="20dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textAlignment="center"
+                android:text="@string/one"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:foregroundGravity="center_vertical">
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/visited"
+                android:padding="20dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textAlignment="center"
+                android:text="@string/twoo"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:foregroundGravity="center_vertical">
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/unvisited"
+                android:padding="20dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textAlignment="center"
+                android:text="@string/three"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verification"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/softBlue">
+
+    </TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,41 +115,53 @@
         android:gravity="center"
         android:paddingRight="16dp"
         android:paddingTop="16dp">
-        <EditText
 
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/inputs"
-            android:paddingBottom="10dp"
-            android:textAlignment="viewStart"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textSize="20dp"
             android:paddingTop="10dp"
-            android:fontFamily="sans-serif-condensed"
+            android:paddingRight="15dp"
+            android:textStyle="bold"
             android:layout_marginBottom="10dp"
+            android:text="@string/verify_otp"
+            android:textColor="@color/darkGrey"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textAlignment="textStart"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/eTVerificationCode"
+            android:layout_width="310sp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/softGrey"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
             android:inputType="phone"
-            android:hint="@string/verification_code"
-            android:id="@+id/eTVerificationCode"/>
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="17dp"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@color/softGrey"
+            android:textSize="19sp" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/buttons"
-            android:gravity="center"
-            android:textColor="@color/White"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/verification"
-            android:textSize="20dp"
-            android:onClick="verificationAction"
+            android:textSize="18sp"
+            android:background="@drawable/buttons"
             android:fontFamily="sans-serif-condensed"
-            android:textAllCaps="false" />
+            android:gravity="center"
+            android:onClick="verificationAction"
+            android:layout_marginTop="50dp"
+            android:text="@string/verification"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

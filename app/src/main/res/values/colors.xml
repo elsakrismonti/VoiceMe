@@ -3,8 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="Black">#292828</color>
-    <color name="Grey">#666C85</color>
-    <color name="White">@color/cardview_light_background</color>
+    <color name="black">#090909</color>
+    <color name="softBlue">#666C85</color>
+    <color name="grey">#BFBDBD</color>
+    <color name="softGrey">#DFDEDE</color>
+    <color name="darkGrey">#8E8D8D</color>
+    <color name="white">@color/cardview_light_background</color>
 
 </resources>

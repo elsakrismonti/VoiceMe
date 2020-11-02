@@ -14,26 +14,19 @@ public class SignUpActivity extends AppCompatActivity implements SignupPresenter
 
     private SignupPresenter presenter;
     private EditText eTUserName;
-    Toolbar signUpToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         initialize();
-        settingActionBar();
     }
 
     private void initialize(){
         eTUserName = findViewById(R.id.eTUserName);
-        signUpToolBar = findViewById(R.id.signup_toolbar);
         presenter = new SignupPresenter(this);
     }
 
-    private void settingActionBar() {
-        setSupportActionBar(signUpToolBar);
-        getSupportActionBar().setTitle("Register");
-    }
 
     public void signUp(View view) {
         presenter.setUserName(eTUserName.getText().toString());

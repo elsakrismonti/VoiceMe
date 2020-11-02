@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textColor="@color/Black"
+            android:textColor="@color/black"
             android:layout_marginLeft="5dp"
             android:textSize="16sp"
             />
@@ -48,7 +48,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="11dp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/White"
+        android:textColor="@color/softBlue"
         android:layout_toRightOf="@id/show_message"
         android:layout_alignBottom="@id/show_message"/>
 </RelativeLayout>

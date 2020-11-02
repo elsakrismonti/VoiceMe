@@ -19,11 +19,11 @@
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Grey"
+            android:background="@color/softBlue"
             app:tabMode="fixed"
             app:tabGravity="fill"
-            app:tabTextColor="@color/White"
-            app:tabIndicatorColor="@color/White"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"
             android:id="@+id/tabLayout_id"
             >
         </com.google.android.material.tabs.TabLayout>

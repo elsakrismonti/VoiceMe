@@ -43,7 +43,7 @@ public class UserRecycleViewAdapter extends RecyclerView.Adapter<UserRecycleView
 
         holder.tVUsername.setText(mData.get(position).getUsername());
         holder.tVPhoneNumber.setText(mData.get(position).getPhoneNumber());
-        holder.circleImageView.setImageResource(R.drawable.ic_about);
+        holder.circleImageView.setImageResource(R.drawable.ic_friend);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
