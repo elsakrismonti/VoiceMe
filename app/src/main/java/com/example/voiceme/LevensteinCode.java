@@ -177,4 +177,24 @@ public class LevensteinCode {
         return variationList;
     }
 
+    // Ratio of Compression
+    public static double ratioOfCompression(double beforeCompression, double  afterCompression){
+        return beforeCompression/afterCompression;
+    }
+
+    // Compression Ratio
+    public static double compressionRatio(double  beforeCompression, double  afterCompression){
+        return (afterCompression/beforeCompression)*100;
+    }
+
+    // Space Savings
+    public static double spaceSavings(double  beforeCompression, double  afterCompression){
+        return (1-(afterCompression/beforeCompression))*100;
+    }
+
+    // Bit Rate
+    public static double bitRate(double  compressedBits, double  variationLength){
+        return (compressedBits/variationLength);
+    }
+
 }

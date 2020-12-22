@@ -82,7 +82,7 @@ public class VerificationPresenter {
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
-        final ProgressDialog dialog = ProgressDialog.show((Context) v, "", "Sedang Memuat", true);
+        final ProgressDialog dialog = ProgressDialog.show((Context) v, "", "We're checking the OTP", true);
         Firebase.auth().signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

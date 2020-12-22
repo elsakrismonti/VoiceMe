@@ -46,10 +46,10 @@ public class Math {
         for(int i = (b.length()-1); i >= 0; i--){
             if(b.charAt(i) == '1') dec_b += base;
             base = base * 2;
-        }        
-//        dec_b = Integer.parseInt(b, 2);
+        }
         return dec_b;
     }
+
     //Square and Multiple
     public static int modularExponentiation(int d, int e, int f){
         BigInteger m = new BigInteger(1 + "");

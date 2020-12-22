@@ -2,13 +2,15 @@ package com.example.voiceme.model;
 
 public class Keys {
     private int p;
+    private int e;
     private int d;
 
     public Keys() {
     }
 
-    public Keys(int p, int d) {
+    public Keys(int p, int e, int d) {
         this.p = p;
+        this.e = e;
         this.d = d;
     }
 
@@ -18,6 +20,14 @@ public class Keys {
 
     public void setP(int p) {
         this.p = p;
+    }
+
+    public int getE() {
+        return e;
+    }
+
+    public void setE(int e) {
+        this.e = e;
     }
 
     public int getD() {
@@ -32,6 +42,7 @@ public class Keys {
     public String toString() {
         return "Keys{" +
                 "p=" + p +
+                ", e=" + e +
                 ", d=" + d +
                 '}';
     }

@@ -5,17 +5,27 @@ import java.util.List;
 public class Data {
     private Keys key = new Keys();
     private RunningTime time = new RunningTime();
+    private CompressionFactors compressionFactors = new CompressionFactors();
     private String data;
     private List<Integer> variations;
 
     public Data() {
     }
 
-    public Data(Keys key, RunningTime time, String data, List<Integer> variations) {
+    public Data(Keys key, RunningTime time, CompressionFactors compressionFactors, String data, List<Integer> variations) {
         this.key = key;
         this.time = time;
+        this.compressionFactors = compressionFactors;
         this.data = data;
         this.variations = variations;
+    }
+
+    public Keys getKey() {
+        return key;
+    }
+
+    public void setKey(Keys key) {
+        this.key = key;
     }
 
     public RunningTime getTime() {
@@ -26,12 +36,12 @@ public class Data {
         this.time = time;
     }
 
-    public Keys getKey() {
-        return key;
+    public CompressionFactors getCompressionFactors() {
+        return compressionFactors;
     }
 
-    public void setKey(Keys key) {
-        this.key = key;
+    public void setCompressionFactors(CompressionFactors compressionFactors) {
+        this.compressionFactors = compressionFactors;
     }
 
     public String getData() {
@@ -48,14 +58,5 @@ public class Data {
 
     public void setVariations(List<Integer> variations) {
         this.variations = variations;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{" +
-                "key=" + key +
-                ", data='" + data + '\'' +
-                ", variations=" + variations +
-                '}';
     }
 }

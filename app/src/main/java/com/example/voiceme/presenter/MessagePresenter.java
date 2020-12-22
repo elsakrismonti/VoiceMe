@@ -14,12 +14,12 @@ import com.example.voiceme.Math;
 import com.example.voiceme.adapter.MessageAdapter;
 import com.example.voiceme.model.ChatModel;
 import com.example.voiceme.model.ChatRoomModel;
+import com.example.voiceme.model.CompressionFactors;
 import com.example.voiceme.model.Data;
 import com.example.voiceme.model.DataFinal;
 import com.example.voiceme.model.Keys;
 import com.example.voiceme.model.RecordWav;
 import com.example.voiceme.model.RunningTime;
-import com.example.voiceme.model.UserModel;
 import com.example.voiceme.utilities.WavUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +52,10 @@ public class MessagePresenter {
     private double decRunningTime;
     private double comRunningTime;
     private double decomRunningTime;
+    private double ratioOfCompression;
+    private double CompressionRatio;
+    private double spaceSavings;
+    private double bitRate;
     private ChatRoomModel chatRoomModel;
     private MessageAdapter adapter;
     private String roomId;
@@ -99,7 +103,7 @@ public class MessagePresenter {
         final MasseyOmura masseyOmura = new MasseyOmura();
         final ChatModel chatModel = new ChatModel();
         chatModel.setSenderId(Firebase.currentUser().getUid());
-        Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
+        Keys keys = new Keys(masseyOmura.p, masseyOmura.e, masseyOmura.d);
         final Data data1 = new Data();
         data1.setKey(keys);
 
@@ -130,6 +134,12 @@ public class MessagePresenter {
                             comRunningTime = (finishTime - startTime)*0.001;
                             RunningTime time = new RunningTime(encRunningTime, 0 , comRunningTime, 0);
                             data1.setTime(time);
+                            ratioOfCompression = LevensteinCode.ratioOfCompression(encryption.length*4, data.length());
+                            CompressionRatio = LevensteinCode.compressionRatio(encryption.length*4, data.length());
+                            spaceSavings = LevensteinCode.spaceSavings(encryption.length*4, data.length());
+                            bitRate = LevensteinCode.bitRate(data.length()*8, dataVariation1.size());
+                            CompressionFactors compressionFactors = new CompressionFactors(ratioOfCompression , CompressionRatio, spaceSavings, bitRate);
+                            data1.setCompressionFactors(compressionFactors);
                             chatModel.setData1(data1);
                             view.setTVProgressText("sending...");
                             Firebase.DataBase.message(chatRoomModel.getId()).add(chatModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -252,7 +262,7 @@ public class MessagePresenter {
                                                                 String data = LevensteinCode.compression(encryption);
                                                                 finishTime = System.currentTimeMillis();
                                                                 comRunningTime = (finishTime - startTime) * 0.001;
-                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
+                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.e, masseyOmura.d);
                                                                 Data data2 = new Data();
                                                                 data2.setKey(keys);
                                                                 data2.setData(data);
@@ -332,7 +342,7 @@ public class MessagePresenter {
                                 }
 
                             } else {
-                                //                            DATA 3
+//                            DATA 3
                                 if (chat.getData3().getData() == null && chat.getData2().getData() != null) {
                                     try{
                                         final MasseyOmura masseyOmura = new MasseyOmura(chat.getData1().getKey().getP(), chat.getData1().getKey().getD());
@@ -361,7 +371,7 @@ public class MessagePresenter {
                                                                 String data = LevensteinCode.compression(decryption);
                                                                 finishTime = System.currentTimeMillis();
                                                                 comRunningTime = (finishTime - startTime) * 0.001;
-                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.d);
+                                                                Keys keys = new Keys(masseyOmura.p, masseyOmura.e, masseyOmura.d);
                                                                 Data data3 = new Data();
                                                                 data3.setKey(keys);
                                                                 data3.setData(data);
@@ -394,20 +404,9 @@ public class MessagePresenter {
                             mChat.add(chat);
                             view.updateList(mChat);
                         }
-//                                            adapter = new MessageAdapter(((Activity) view), mChat);
-//                                            recyclerView.setAdapter(adapter);;
                     }
                 }
-//                                    if(task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty())    {
-//                                        mChat.clear();
-//                                        for(DocumentSnapshot querySnapshot: task.getResult()){
-//                                            ChatModel chat = new ChatModel(querySnapshot.getString("senderId"), querySnapshot.getString("dataFinal"),
-//                                            querySnapshot.getDate("createAt"));
-//                                            mChat.add(chat);
-//                                            adapter = new MessageAdapter(((Activity) view), mChat);
-//                                            recyclerView.setAdapter(adapter);;
-//                                        }
-//                                    }
+
             }
         }));
     }
@@ -415,7 +414,7 @@ public class MessagePresenter {
     private void startRecording() {
         if (view.checkPermission()) {
             record.startRecording();
-            int recordDuration = 20000; //20 seconds
+            int recordDuration = 5000; //20 seconds
 
             handler.postDelayed(new Runnable() {
                 @Override
